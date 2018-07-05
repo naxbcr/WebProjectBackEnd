@@ -1,0 +1,1258 @@
+<%@page import="model.Courses"%>
+<%@page import="java.util.List"%>
+<%@page import="model.Programmain"%>
+<%@page import="model.Parser"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <link href="css/css.css" rel="stylesheet" type="text/css"/>
+        <title>Page</title>
+    </head>
+    <body<nav id="header" class="navbar navbar-fixed-top">
+            
+            <div id="header-container" class="container navbar-container" style="background-color: #6441A5">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="brand" class="navbar-brand" >Maksim Z</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="index.jsp">Home</a></li>
+                        <li><a href="WEB.jsp">WEB</a></li>
+                        <li><a href="c.jsp">C#</a></li>
+                        <li><a href="Office.jsp">Microsoft Office</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <br>
+       
+        <div class="container" >
+        <div class="row centered-form">
+            <div class="panel-heading">
+                <div id="ahref">
+            <h1>Курсы</h1>
+        <%
+        String filename=application.getRealPath("/database.xml");
+        Parser Parse = new Parser(filename);
+        List<Courses> SubList = Parse.getCourses();
+        %> 
+        <% out.println("<p>"+ "Количество курсов:" + SubList.size() + "</p>");%> 
+        <% 
+        for(Courses s : SubList){
+            if(s.getTitle().contains("WEB"))
+            {
+               out.println("<p>" + "<a href=WEB.jsp>"+s+"</a>" + "</p>");
+            }
+        }
+        %>
+        <%
+        for(Courses s : SubList){
+            if(s.getTitle().contains("C#"))
+            {
+                out.println("<p>" + "<a href=c.jsp>"+s+"</a>" + "</p>");
+            }
+        }
+        %>
+        <%
+        for(Courses s : SubList){
+            if(s.getTitle().contains("Microsoft Office"))
+            {
+                out.println("<p>" + "<a href=Office.jsp>"+s+"</a>" + "</p>");
+            }
+        }
+        %>
+   
+        </div>
+         </div>
+        </div>  
+        </div>
+    </body>
+</html>
+
+
+
+
+<%@page import="java.util.List"%>
+<%@page import="model.Courses"%>
+<%@page import="model.Parser"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <title>C#</title>
+    </head>
+    <body>
+        <body<nav id="header" class="navbar navbar-fixed-top">
+            <div id="header-container" class="container navbar-container" style="background-color: #6441A5">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="brand" class="navbar-brand" >Maksim Z</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="index.jsp">Home</a></li>
+                        <li><a href="WEB.jsp">WEB</a></li>
+                        <li><a href="c.jsp">C#</a></li>
+                        <li><a href="Office.jsp">Microsoft Office</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+            <div class="container" >
+        <div class="row centered-form">
+            <div class="panel-heading">
+        <div>
+        <br>
+        <br>
+        <%
+        String filename=application.getRealPath("/database.xml");
+        Parser Parse = new Parser(filename);
+        List<Courses> SubList = Parse.getCourses();
+        %>
+        
+        <% for(Courses s : SubList){
+            if(s.getTitle().contains("C#"))
+            {
+                out.println("<p>"+"Курc:" + s + "</p>");
+            }
+        }
+        %>
+        
+        <h4>Участники:</h4>
+        <% 
+        for(Courses s : SubList){
+            if(s.getTitle().contains("C#"))
+            {
+                int i =0;
+                do{
+                    out.println(s.getStudents().get(i));
+                 i++;
+                }while(i < s.getStudents().size());
+            }
+        }
+        %>
+        
+   
+        </div>
+         </div>
+        </div>  
+        </div>
+    </body>
+</html>
+public class Courses{
+    
+    String code;
+    String title;
+    List<Student> students;
+    
+    public Courses(){}
+    public Courses(String code,String title,List<Student> students){
+    this.code=code;
+    this.title = title;
+    this.students=students;
+    }
+    public void setCode(String code){
+    this.code =code;
+    }
+    
+    public void setTitle(String title){
+    this.title = title;
+    }
+    
+    public String getCode()
+    {
+    return code;
+    }
+    public String getTitle()
+    {
+    return title;
+    }
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+    
+    @Override
+   public String toString() {
+       return code+" "+title;
+   }
+}
+public interface ICourses {
+    
+    String fileXML = "database.xml";
+    ArrayList<Courses> getCourses(); 
+}
+
+public class Parser implements ICourses{
+        ArrayList<Courses> list = new ArrayList<>();
+    public Parser(String filename) throws ParserConfigurationException, SAXException, IOException {
+    File inputFile = new File(filename);
+    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+    Document doc = dBuilder.parse(inputFile);
+    doc.getDocumentElement().normalize();
+    NodeList CourseList = doc.getElementsByTagName("Subject");
+        for (int i = 0; i < CourseList.getLength(); i++) {
+           Node CourseNode = CourseList.item(i);
+           List<Student> students = new LinkedList<>();
+           if(CourseNode.getNodeType()== Node.ELEMENT_NODE)
+           {
+               Courses courses = new Courses();
+               Element coursesElement = (Element) CourseNode;
+               courses.setCode(coursesElement.getAttribute("code"));
+               courses.setTitle(coursesElement.getAttribute("title"));
+               
+               NodeList studentsList = coursesElement.getElementsByTagName("Student");
+               for (int j = 0; j < studentsList.getLength(); j++) {
+                   Node studentNode = studentsList.item(j);
+                   if (studentNode.getNodeType() == Node.ELEMENT_NODE) {
+                       Element element2 = (Element) studentNode;
+                       Student student = new Student(element2.getAttribute("code"), element2.getElementsByTagName("name").item(0).getTextContent(), element2.getElementsByTagName("lastname").item(0).getTextContent());
+                       students.add(student);
+                   }
+               }
+               courses.setStudents(students);
+               list.add(courses);
+           }
+        }
+    }
+    
+    @Override
+    public ArrayList<Courses> getCourses() {
+        return list;
+    }
+}
+ 
+
+public class Programmain {
+    public static void main(String[] args) 
+            throws ParserConfigurationException, SAXException, IOException {
+        Parser pars = new Parser("");
+        //Parser2 pars2 = new Parser2();
+        pars.getCourses().forEach(b -> System.out.println(b));
+        //pars2.getCoures().forEach(b -> System.out.println(b));
+    }
+}
+
+
+
+body{
+  /* Safari 4-5, Chrome 1-9 */
+    background: -webkit-gradient(radial, center center, 0, center center, 460, from(#1a82f7), to(#2F2727));
+
+  /* Safari 5.1+, Chrome 10+ */
+    background: -webkit-radial-gradient(circle, #1a82f7, #2F2727);
+
+  /* Firefox 3.6+ */
+    background: -moz-radial-gradient(circle, #1a82f7, #2F2727);
+
+  /* IE 10 */
+    background: -ms-radial-gradient(circle, #1a82f7, #2F2727);
+    height:600px;
+}
+
+
+CREATE TABLE database.users
+(
+  
+
+user_id serial NOT NULL,
+  
+login text NOT NULL,
+  
+firstname text NOT NULL,
+  
+lastname text NOT NULL,
+  
+email text NOT NULL,
+  
+password1 text NOT NULL,
+  
+password2 text NOT NULL,
+  
+city text NOT NULL,
+  
+userrole integer DEFAULT 1,
+  
+CONSTRAINT pk_id PRIMARY KEY (user_id)
+
+)
+
+
+
+if(hdnParam.equals("login"))
+        {
+            String login = request.getParameter("login");
+            String password1 = request.getParameter("password1");
+
+            if(login.equals("admin") && (password1.equals("admin"))){
+                response.sendRedirect("admin.jsp");
+            }
+            else
+            {
+                Users set = new Users();
+                set.setLogin(login);
+                set.setPassword1(password1);
+                
+                
+                int checkUser = addusers.checkUser(set);
+                
+                if(checkUser == 1){
+                    System.out.println("Welcome");
+                    response.sendRedirect("welcome.jsp");
+                }
+                else
+                {
+                    System.out.println("Wrogn login or password");
+                    response.sendRedirect("login.jsp");
+                }
+            }   
+        }
+
+
+<input type="button" id="SecondButton" onclick="window.location.href='login.jsp'" value="Login" class="btn btn-info btn-block">
+
+
+
+
+
+
+
+
+String login = request.getParameter("login");
+            String firstname = request.getParameter("firstname");
+            String lastname = request.getParameter("lastname");
+            String email = request.getParameter("email");
+            String password1 = request.getParameter("password1");
+            String password2 = request.getParameter("password12");
+            String city = request.getParameter("city");
+            Users set = new Users();
+                set.setLogin(login);
+                set.setFirstname(firstname);
+                set.setLastname(lastname);
+                set.setEmail(email);
+                set.setPassword1(password1);
+                set.setPassword2(password2);
+                set.setCity(city);
+            addusers.insert(set);
+            
+  
+            System.out.println("You are succesfull registred");
+            //response.sendRedirect("index.jsp");
+
+
+
+
+
+
+
+PreparedStatement ps;
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {}
+        
+        String sql = "INSERT INTO 'users'('login', 'firstname', 'lastname', 'email', 'password1', 'password2', 'city') VALUES('?','?','?','?','?','?','?');";
+    
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, set.getLogin());
+            ps.setString(2, set.getFirstname());
+            ps.setString(3, set.getLastname());
+            ps.setString(4, set.getEmail());
+            ps.setString(5, set.getPassword1());
+            ps.setString(6, set.getPassword2());
+            ps.setString(7, set.getCity());
+        } catch (Exception e){}
+        
+    }
+    
+    public static int checkUser(Users get){
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {}
+        String sql = "SELECT COUNT(*) FROM users WHERE login=? AND password=?";
+        int count=0;
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, get.getLogin());
+            ps.setString(2, get.getPassword1());
+            ResultSet rs=ps.executeQuery();
+            
+            while(rs.next()){
+                count = rs.getInt(1);
+            }
+            
+        } catch (SQLException e) {}     
+        
+        ConnectionManager.getInstance().close();
+        return count;
+
+
+
+
+    <servlet>
+        <servlet-name>Serv</servlet-name>
+        <servlet-class>addindbregistration</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Serv</servlet-name>
+        <url-pattern>/Servlet</url-pattern>
+    </servlet-mapping>
+
+
+package model;
+import java.io.*;
+import java.util.*;
+import java.sql.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+ 
+class DataServlet extends HttpServlet {
+ 
+    private ServletConfig config;
+ 
+    // Это наша JSP страница
+ 
+    String page = "index.jsp";
+ 
+    public void init(ServletConfig config)
+ 
+    throws ServletException {
+ 
+        this.config = config;
+ 
+    }
+ 
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+ 
+    throws ServletException, IOException {
+ 
+        PrintWriter out = response.getWriter();
+ 
+        // Устанавливаем соединение с БД
+ 
+        String connectionURL = "jdbc:postgresql://dev.vk.edu.ee:5432/db_MaksimZ";
+ 
+        Connection connection = null;
+ 
+        ResultSet rs;
+ 
+        response.setContentType("text/html");
+ 
+        List dataList = new ArrayList();
+ 
+        try {
+ 
+            // Загружаем драйвер БД
+ 
+            Class.forName("org.postgresql.Driver");
+ 
+            // Подключаемся к БД
+ 
+            connection = DriverManager.getConnection(connectionURL, "t131632",
+                    "t131632");
+ 
+            // Выбираем данные из БД
+ 
+            String sql = "select * from database.users";
+ 
+            Statement s = connection.createStatement();
+ 
+            s.executeQuery(sql);
+ 
+            rs = s.getResultSet();
+ 
+            while (rs.next()) {
+ 
+                // Сохраняем всё в список
+ 
+                dataList.add(rs.getInt("login_id"));
+ 
+                dataList.add(rs.getString("login"));
+ 
+            }
+ 
+            rs.close();
+ 
+            s.close();
+ 
+        } catch (Exception e) {
+ 
+            System.out.println("Exception is ;" + e);
+ 
+        }
+ 
+        request.setAttribute("data", dataList);
+ 
+        // Переходим на JSP страницу
+ 
+        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+ 
+        if (dispatcher != null) {
+ 
+            dispatcher.forward(request, response);
+ 
+        }
+ 
+    }
+ 
+}
+
+
+<%Iterator itr;%>
+            <% List data= (List)request.getAttribute("data");
+                for (itr=data.iterator(); itr.hasNext(); ) {
+            %>
+            <tr>
+                <td width="119"><%=itr.next()%></td>
+                <td width="168"><%=itr.next()%></td>
+            </tr>
+            <%}%>
+
+String login = request.getParameter("login");
+    String password = request.getParameter("password");
+    
+    Statement statement;
+    List dataList = new ArrayList();
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {}
+      try {
+        statement = conn.createStatement();
+        String sql = "SELECT login,password1 FROM database.users;";
+        statement.execute(sql);
+        ResultSet rs;
+         try {
+             rs = statement.getResultSet();
+             while (rs.next()) {
+                dataList.add(rs.getString("login"));
+                dataList.add(rs.getString("password1"));
+             }
+             rs.close();
+             statement.close();
+            }
+         catch (Exception e) {
+ 
+            System.out.println("Exception is ;" + e);
+         }
+        
+      }
+      catch (SQLException e) {
+        System.out.println(e.getMessage());
+        }
+
+    <servlet>
+        <servlet-name>Serv</servlet-name>
+        <servlet-class>addindbregistration</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Serv</servlet-name>
+        <url-pattern>/Servlet</url-pattern>
+    </servlet-mapping>
+
+<td> <%= request.getParameter("first_name")%></td>
+       
+
+<td> <%= request.getParameter("email")%></td>
+        
+<td> <%= request.getParameter("password")%></td>
+        
+<td> <%= request.getParameter("city")%></td>
+        
+<td> <%= request.getParameter("street")%></td>
+ 
+
+
+
+<input type="submit" value="register" />
+
+
+int checkUser = addusers.checkUser(set);
+                int userRole = addusers.checkAdmin(set);
+                
+                if(checkUser == 1 && userRole== 1)
+                    response.sendRedirect("user.jsp");
+                if(checkUser == 1 && userRole== 2)
+                    response.sendRedirect("admin.jsp");
+                else
+                    response.sendRedirect("login.jsp"); 
+
+
+    <servlet>
+        <servlet-name>Serv</servlet-name>
+        <servlet-class>addindbregistration</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Serv</servlet-name>
+        <url-pattern>/Servlet</url-pattern>
+    </servlet-mapping>
+
+CREATE TABLE database.registeredoncourses
+(
+
+reg_id serial NOT NULL,
+  
+course_id int not null,
+  
+user_id int not null,
+  
+CONSTRAINT pk_regid PRIMARY KEY (reg_id),
+CONSTRAINT fk_courseid FOREIGN KEY (course_id) REFERENCES database.courses(course_id),
+CONSTRAINT fk_userID FOREIGN KEY (user_id) REFERENCES database.users(user_id)
+)
+
+<%@page import="model.Coursesetting"%>
+<%@page import="model.Courses"%>
+<%@page import="model.allcourses"%>
+<%@page import="model.Users"%>
+<%@page import="java.util.List"%>
+<%@page import="model.loginto"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <title>Page</title>
+<link href="css/css.css" rel="stylesheet" type="text/css"/>
+
+    </head>
+    <body>
+        <%loginto user = new loginto();
+          List<Users> SubList = user.getLogin();
+          String firstname= null;
+          String lastname= null;
+          for (Users s : SubList) {
+              firstname = s.getFirstname();
+              lastname = s.getLastname();
+                      }
+          
+          %>
+        <nav id="header" class="navbar navbar-fixed-top">
+            
+            <div id="header-container" class="container navbar-container" style="background-color: #6441A5">
+                <div class="navbar-header">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+
+                    <a id="brand" class="navbar-brand" >Maksim Z</a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="admin.jsp">Home</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav" style="float: right">
+                        <li><a id="brand" class="navbar-brand" ><%out.write(firstname);%> <%out.write(lastname);%></a></li>
+                        <li class="active"><a href="settings.jsp">Settings</a></li>
+                        <li class="active"><a href="index.jsp">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container" >
+        <div class="row centered-form">
+            <div class="panel-heading">
+                <div id="ahref">
+                    
+                <h1>Курсы</h1>
+                <form action="${pageContext.request.contextPath}/Servletadd" method="post">
+                <%
+                    allcourses Parse = new allcourses();
+                    Parse.showall();
+                    List<Courses> List = Parse.getCourses();
+                %> 
+                <% out.println("<p>" + "Количество курсов:" + List.size() + "</p>");%> 
+                <%  int jj=1;
+                    for (Courses s : List) {
+                        out.println("<br>"+s+" "+ "<input type='submit' name='button' value='Register on Course "+jj+"' class='btn'/>"+"   "+ "<input type='submit' name='button' value='Delete from Course "+jj+"'  class='btn btn-info'/>");
+                        if (s.getCourseTitle().contains(s.getCourseTitle())) {
+                                int i = 0;
+                                do {
+                                    out.println(s.getUsers().get(i));
+                                    i++;
+                                } while (i < s.getUsers().size());
+                            }
+                        jj++;
+                    }
+                    List.clear();
+                %>
+        </form>
+        </div>  
+        </div>
+            </div>
+            </div>
+    </body>
+</html>
+
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+ 
+public class ConnectionManager {
+ 
+    private static ConnectionManager instance = null;
+    
+    private final String USERNAME = "t131632";
+    private final String PASSWORD = "t131632";
+    private final String CONN_STRING = "jdbc:postgresql://dev.vk.edu.ee:5432/db_MaksimZ";
+    
+    private Connection conn = null;
+    
+    private ConnectionManager(){}
+    
+    public static ConnectionManager getInstance(){
+        if(instance == null)
+            instance = new ConnectionManager();
+        return instance;
+    }
+    
+    private boolean openConnection(){
+        try{
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection(CONN_STRING,USERNAME, PASSWORD);
+        }catch(SQLException e){
+        } catch (ClassNotFoundException ex) {
+        }
+        
+        return true;
+    }
+    
+    public Connection getConnection(){
+        if(conn == null)
+            if(openConnection()){
+                System.out.println("Connection Opened");
+                return conn;
+            }else
+                return null;
+        return conn;
+    }
+    
+    public void close(){
+        System.out.println("Closing connection");
+        try{
+            conn.close();
+        }catch(SQLException e){}
+        conn = null;
+    }
+}/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+import static javassist.CtMethod.ConstParameter.string;
+
+/**
+ *
+ * @author Maks
+ */
+public class Coursesetting {
+    public static Connection conn = ConnectionManager.getInstance().getConnection();
+    public void adduserincourse(int course_id,int user_id){
+        Statement statement;
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {}
+      try {
+        statement = conn.createStatement();
+        String sql = "INSERT INTO database.registeredoncourses(course_id,user_id) values('"+course_id+"','"+user_id+"');";
+                // выполнить SQL запрос
+        statement.execute(sql);
+       
+        
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        }
+    }
+    public void deletefrom(int course_id,int user_id){
+        Statement statement;
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {}
+      try {
+        statement = conn.createStatement();
+        String sql = "DELETE FROM database.registeredoncourses where user_id='"+user_id+"' and course_id='"+course_id+"';";
+                // выполнить SQL запрос
+        statement.execute(sql);
+       
+        
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        }
+    }
+}
+package model;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author Maks
+ */
+@WebServlet("/Servletadd")
+public class Servletadd extends HttpServlet {
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Coursesetting add = new Coursesetting();
+        allcourses Parse = new allcourses();
+        Parse.showall();
+        String cours = request.getParameter("button");
+        int cour = 0;
+        List<Courses> SubList = Parse.getCourses();
+        for (Courses s : SubList) {
+            if (("Register on Course " + s.getCourseId()).equals(cours)) {
+                cour = s.getCourseId();
+            }
+        }
+        loginto login = new loginto();
+        List<Users> user = login.getLogin();
+        for (Users a : user) {
+            add.adduserincourse(cour, a.getUserId());
+        }
+        int cour1 = 0;
+        for (Courses s : SubList) {
+            if (("Delete from Course " + s.getCourseId()).equals(cours)) {
+                cour1 = s.getCourseId();
+            }
+        }
+
+        for (Users a : user) {
+            add.deletefrom(cour1, a.getUserId());
+        }
+        SubList.clear();
+
+        response.sendRedirect("user.jsp");
+
+    }
+
+}package model;
+
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+/**
+ *
+ * @author Maks
+ */
+@WebServlet("/addindbregistration")
+public class addindbregistration extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public addindbregistration() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ 
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+    }
+ 
+    /**
+     * @param request
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            String login = request.getParameter("login");
+            String firstname = request.getParameter("firstname");
+            String lastname = request.getParameter("lastname");
+            String email = request.getParameter("email");
+            String password1 = request.getParameter("password1");
+            String password2 = request.getParameter("password2");
+            String city = request.getParameter("city");
+            Users set = new Users();
+                set.setLogin(login);
+                set.setFirstname(firstname);
+                set.setLastname(lastname);
+                set.setEmail(email);
+                set.setPassword1(password1);
+                set.setPassword2(password2);
+                set.setCity(city);
+            addusers.insert(set);
+            response.sendRedirect("index.jsp");
+        }
+}package model;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+/**
+ *
+ * @author Maks
+ */
+public class addusers {
+    public static Connection conn = ConnectionManager.getInstance().getConnection();
+    public static void insert(Users set){
+        Statement statement;
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {}
+      try {
+        statement = conn.createStatement();
+        String sql = "INSERT INTO database.users (login, firstname, lastname, email, password1, password2, city) VALUES('"+set.getLogin()+"','"+set.getFirstname()+"','"+set.getLastname()+"','"+set.getEmail()+"','"+set.getPassword1()+"','"+set.getPassword2()+"','"+set.getCity()+"');";
+                // выполнить SQL запрос
+        statement.execute(sql);
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        }
+    }
+    
+    public static int checkUser(Users get){
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {}
+        String sql = "SELECT COUNT(*) FROM database.users WHERE login='"+get.getLogin()+"' AND password1='"+get.getPassword1()+"';";
+        int count=0;
+        try {         
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sql);         
+            while(rs.next()){
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {}     
+     //   ConnectionManager.getInstance().close();
+        return count;
+    }
+    public static int checkAdmin(Users get){
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) { }
+        String sql = "SELECT userrole FROM database.users WHERE login='"+get.getLogin()+"' AND password1='"+get.getPassword1()+"';";
+        int count=0;
+        try {
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(sql);         
+            while(rs.next()){
+                count = rs.getInt(1);
+            }
+        } catch (SQLException e) {}
+       // ConnectionManager.getInstance().close();
+        
+        return count;
+    }
+    
+    public static void change(Users set){
+        Statement statement;
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {}
+      try {
+          loginto user = new loginto();
+          List<Users> SubList = user.getLogin();
+          int id = 0;
+          for (Users s : SubList) {
+              id= s.getUserId();
+                      }
+        statement = conn.createStatement();
+            String sql = "UPDATE database.users set login='"+set.getLogin()+"',firstname='"+set.getFirstname()+"',lastname='"+set.getLastname()+"',email='"+set.getEmail()+"',password1='"+set.getPassword1()+"',password2='"+set.getPassword2()+"',city='"+set.getCity()+"' where user_id='"+id+"';";
+                // выполнить SQL запрос
+        statement.execute(sql);
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        }
+    }
+    
+}
+    package model;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
+import java.sql.Statement;
+
+/**
+ *
+ * @author Maks
+ */
+public class allcourses {
+    public static List<Courses> courselist = new LinkedList<>();
+    public void showall()
+    {
+        java.sql.Statement statement;
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {}
+        
+      try {
+        int count1 =0;
+        statement = addusers.conn.createStatement();
+        Statement statement2 = addusers.conn.createStatement();
+        Statement statement3 = addusers.conn.createStatement();
+        Statement statement4 = addusers.conn.createStatement();
+            String sql = "SELECT Count(DISTINCT(database.courses.course_id)) FROM database.courses INNER JOIN database.registeredoncourses ON database.registeredoncourses.course_id = database.courses.course_id;";
+                // выполнить SQL запрос
+        ResultSet rs = statement.executeQuery(sql);         
+            while(rs.next()){
+                count1 = rs.getInt(1);
+            }
+            
+        for(int i=0;i<count1;i++)
+        {
+            List<Users> users = new LinkedList<>();
+            Courses courses = new Courses();
+            String sql1 = "SELECT Distinct database.courses.course_id,database.courses.course_title,database.courses.course_code FROM database.courses INNER JOIN database.registeredoncourses ON database.registeredoncourses.course_id = database.courses.course_id  ORDER BY database.courses.course_id LIMIT 1 OFFSET '"+i+"';";
+            ResultSet rs1 = statement2.executeQuery(sql1);         
+            while(rs1.next()){
+                courses.setCourseId(rs1.getInt(1));
+                courses.setCourseTitle(rs1.getString(2));
+                courses.setCourseCode(rs1.getString(3));
+                
+                
+                String sql2 = "SELECT COUNT(*) FROM database.registeredoncourses where course_id='"+courses.getCourseId()+"';";
+                int count2 = 0;
+                ResultSet rs2 = statement3.executeQuery(sql2);         
+                    while(rs2.next()){
+                    count2 = rs2.getInt(1);
+                    }
+                    
+                for(int y=0;y<count2;y++){
+                    Users user = new Users();
+                    String sql3 = "SELECT database.users.user_id,database.users.firstname,database.users.lastname,database.users.email FROM database.users INNER JOIN database.registeredoncourses ON database.registeredoncourses.user_id = database.users.user_id where database.registeredoncourses.course_id ='"+courses.getCourseId()+"' ORDER BY database.users.firstname LIMIT 1 OFFSET '"+y+"';";
+                    ResultSet rs3 = statement4.executeQuery(sql3);
+                    while(rs3.next()){
+                        user.setUserId(rs3.getInt(1));
+                        user.setFirstname(rs3.getString(2));
+                        user.setLastname(rs3.getString(3));
+                        user.setEmail(rs3.getString(4));   
+                    }
+                    users.add(user);
+                    
+                }
+            courses.setUsers(users);
+            courselist.add(courses);
+            }
+        }   
+    } catch (SQLException e) {
+        System.out.println(e.getMessage());
+        }
+    }
+
+    public List<Courses> getCourses() {
+        return courselist;
+    }
+}
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+/**
+ *
+ * @author Maks
+ */
+
+@WebServlet("/loginto")
+public class loginto extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public loginto() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ 
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+            
+    }
+ 
+    /**
+     * @param request
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    public static ArrayList<Users> list = new ArrayList<>();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+            
+                String login = request.getParameter("login");
+                String password1 = request.getParameter("password1");
+                Users set = new Users();
+                set.setLogin(login);
+                set.setPassword1(password1);
+                
+                int checkUser = addusers.checkUser(set);
+                int userRole = addusers.checkAdmin(set);
+
+                if (checkUser == 1 && userRole == 1) {
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+            }
+            String sql = "SELECT user_id,login,firstname,lastname,email,password1,password2,city FROM database.users WHERE login='"+login+"' AND password1='"+password1+"';";
+            
+            try {
+                java.sql.Statement statement = addusers.conn.createStatement();
+                ResultSet rs = statement.executeQuery(sql);
+                while (rs.next()) {
+                    Users set2 = new Users();
+                    set2.setUserId(rs.getInt(1));
+                    set2.setLogin(rs.getString(2));
+                    set2.setFirstname(rs.getString(3));
+                    set2.setLastname(rs.getString(4));
+                    set2.setEmail(rs.getString(5));
+                    set2.setPassword1(rs.getString(6));
+                    set2.setPassword2(rs.getString(7));
+                    set2.setCity(rs.getString(8));
+                    list.add(set2);
+                }
+            } catch (SQLException e) {
+            }
+            response.sendRedirect("user.jsp");
+        }
+                else if(checkUser == 1 && userRole== 2)
+                    response.sendRedirect("admin.jsp");
+                else{
+                    
+                    response.sendRedirect("login.jsp");   
+                }
+    }
+    
+    public ArrayList<Users> getLogin() {
+        return list;
+    }
+}
+package model;
+
+
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+/**
+ *
+ * @author Maks
+ */
+@WebServlet("/settings")
+public class settings extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public settings() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+ 
+    /**
+     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+    }
+ 
+    /**
+     * @param request
+     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+     */
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            String login = request.getParameter("login");
+            String firstname = request.getParameter("firstname");
+            String lastname = request.getParameter("lastname");
+            String email = request.getParameter("email");
+            String password1 = request.getParameter("password1");
+            String password2 = request.getParameter("password2");
+            String city = request.getParameter("city");
+            Users set = new Users();
+                set.setLogin(login);
+                set.setFirstname(firstname);
+                set.setLastname(lastname);
+                set.setEmail(email);
+                set.setPassword1(password1);
+                set.setPassword2(password2);
+                set.setCity(city);
+            addusers.change(set);
+            response.sendRedirect("user.jsp");
+}
+}
+
+
+
+
+
+
+
+
+
+
+
+

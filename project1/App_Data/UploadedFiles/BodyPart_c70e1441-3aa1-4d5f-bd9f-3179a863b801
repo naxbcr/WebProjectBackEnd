@@ -1,0 +1,81 @@
+
+        //проверка почты дл€ регистрации, существует ли почта вообще
+        public bool AllowEmail(string email)
+        {
+            var user = _unitOfWork.UserRepository.GetFirstOrDefaultWhere(x => x.email.Equals(email));
+            if (user != null) { return false; //zanet
+            }
+            return true;//ne zanet 
+        }
+
+        //проверка почты дл€ изменени€ данных в профиле, не занета ли она кем нибудь, кроме самого себ€.
+        public bool CheckEmail(string email, int id)
+        {
+            var user = _unitOfWork.UserRepository.GetFirstOrDefaultWhere(x => x.email.Equals(email));
+            if(user.id == id) { return true; } // эмайл занет тем же пользователем
+            return false; // эмайл занет кем-то другим
+        }
+
+        public bool UpdateUser(int id, User user)
+        {
+            var success = false;
+            if (user != null & CheckEmail(user.email,user.id))
+            {
+                using (var scope = new TransactionScope())
+                {
+                    var dbuser = _unitOfWork.UserRepository.Get(id);
+                    if (dbuser != null)
+                    {
+                        dbuser.first_name = user.first_name;
+                        dbuser.last_name = user.last_name;
+                        dbuser.email = user.email;
+
+                        if (user.password != null) // мен€ем пароль если указали новый пароль, в другом случае поле пассворд у пользовател€ будет пустым, т.е. остаетс€ прежним и мен€ть его ненадо
+                        {
+                            dbuser.password = BCrypt.Net.BCrypt.HashPassword(user.password, BCrypt.Net.BCrypt.GenerateSalt(10));
+                        }
+                        
+                        _unitOfWork.UserRepository.Update(dbuser);
+                        _unitOfWork.Save();
+                        scope.Complete();
+                        success = true;
+                    }
+                }
+            }
+            return success;
+        }
+
+
+
+
+{
+------------------------------------------------ пол€ которые есть у обьекта Ѕƒ
+"id": 4, -- ненадо рест сам выставит
+"title": "Diploma", - надо*
+"decription": null, - не об€зательно, может быть нулл, т.е. можно поле не создавать*
+"src_lang": 1, - надо*
+"dest_lang": 2, - надо*
+"created_date": "2016-11-24T17:19:41.53", - надо*
+"end_date": "2016-11-30T17:19:44.137", - надо*
+"update_date": null, - ненадо
+"translate_status": 1, - надо* 
+"link_customer": "my link", - надо*
+"link_translator": null, - Ќенадо, ставит переводчик
+"price": null, - ненадо пока что
+"id_customer": 39, - надо*
+"id_translator": null, - ненадо, 
+"id_type": 1, - надо*
+
+
+----------------------------------------- все то что ниже ненадо, это используетс€ дл€ того, чтобы когда мы получаем перевод не делать доп. запросы.
+ “.е. дл€ запроса ѕќ—“ эти пол€ можно вообще не создавать или не заполн€ть, ошибки не будет.
+
+"typename": "Technical, Science",
+"srclang_name": "Estonian",
+"destlang_name": "Russian",
+"status_name": "Posted",
+"tr_userlname": null,
+"tr_userfname": null,
+"cs_userlname": "Kulakov",
+"cs_userfname": "Deniss"
+}

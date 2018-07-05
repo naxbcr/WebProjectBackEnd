@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="6b91e1e1907b4777a3ad4162ee1fef49" Name="Diagram1" ZoomLevel="59">
+        <EntityTypeShape EntityType="db_KulakovModel.t_comment" Width="1.5" PointX="9.25" PointY="0.625" />
+        <EntityTypeShape EntityType="db_KulakovModel.t_language" Width="1.5" PointX="4" PointY="0.75" />
+        <EntityTypeShape EntityType="db_KulakovModel.t_position" Width="1.5" PointX="1.25" PointY="4.125" />
+        <EntityTypeShape EntityType="db_KulakovModel.t_status" Width="1.5" PointX="12" PointY="3.875" />
+        <EntityTypeShape EntityType="db_KulakovModel.t_translate" Width="1.5" PointX="6.625" PointY="0.625" />
+        <EntityTypeShape EntityType="db_KulakovModel.t_type" Width="1.5" PointX="12" PointY="5.875" />
+        <EntityTypeShape EntityType="db_KulakovModel.t_user" Width="1.5" PointX="3.875" PointY="3.25" />
+        <AssociationConnector Association="db_KulakovModel.FK__t_comment__id_tr__3A379A64" />
+        <AssociationConnector Association="db_KulakovModel.FK__t_comment__id_us__3943762B" />
+        <AssociationConnector Association="db_KulakovModel.FK__t_transla__dest___4B622666" />
+        <AssociationConnector Association="db_KulakovModel.FK__t_transla__src_l__4A6E022D" />
+        <AssociationConnector Association="db_KulakovModel.FK__t_user__position__542C7691" />
+        <AssociationConnector Association="db_KulakovModel.FK__t_transla__trans__4C564A9F" />
+        <AssociationConnector Association="db_KulakovModel.FK__t_transla__id_cu__3572E547" />
+        <AssociationConnector Association="db_KulakovModel.FK__t_transla__id_tr__36670980" />
+        <AssociationConnector Association="db_KulakovModel.FK__t_transla__id_ty__3D14070F" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
